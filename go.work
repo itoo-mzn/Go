@@ -5,4 +5,5 @@ use (
 	./src/learn-go-with-tests
 	// ./src/learn-go-with-tests
 	./src/learn-go-with-tests/helloworld
+	./src/opensearch
 )
