@@ -23,3 +23,4 @@ https://opensearch.org/docs/latest/
 https://opensearch.org/docs/latest/clients/go/
 https://sheltie-garage.xyz/tech/2023/04/go%E3%81%8B%E3%82%89opensearch%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B/
 https://dev.classmethod.jp/articles/how-to-build-opensearch-with-docker/
+https://zenn.dev/osshy/articles/358e3d0ccc34fa
