@@ -7,27 +7,25 @@ import (
 	"github.com/gocarina/gocsv"
 )
 
-type Country struct {
-	Name       string `csv:"国名"`
-	ISOCode    string `csv:"ISOコード"`
-	Population int    `csv:"人口"`
+type record struct {
+	Message string `csv:"message"`
+	Number  int    `csv:"number"`
 }
 
 func main() {
-	lines := []Country{
-		{Name: "アメリカ", ISOCode: "US", Population: 31},
-		{Name: "日本", ISOCode: "JP", Population: 2},
-		{Name: "中国", ISOCode: "CN", Population: 40},
-	}
+	c := make(chan interface{})
+	go func() {
+		defer close(c)
+		for i := 0; i < 1000*1000; i++ {
+			c <- record{
+				Message: "Hello",
+				Number:  i + 1,
+			}
+		}
+		return
+	}()
 
-	f, err := os.Create("country.csv")
-	if err != nil {
+	if err := gocsv.MarshalChan(c, gocsv.DefaultCSVWriter(os.Stdout)); err != nil {
 		log.Fatal(err)
 	}
-	defer f.Close()
-
-	if err := gocsv.MarshalFile(&lines, f); err != nil {
-		log.Fatal(err)
-	}
-
 }
