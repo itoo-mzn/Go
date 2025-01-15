@@ -2,6 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/mail"
+
+	"github.com/google/go-cmp/cmp"
+	sendgrid_mail "github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
 type Customer struct {
@@ -35,4 +40,34 @@ func main() {
 	fmt.Println(hello[:5])
 	fmt.Println(hello[:9])
 
+	got := &Customer{
+		ID:      "1a",
+		Balance: 0.12,
+	}
+	want := &Customer{
+		ID:      "1b",
+		Balance: 0.12,
+	}
+	fmt.Println(cmp.Diff(got, want))
+
+	// address := "Alice , <alice@example.com>"
+	// address := "[Alice] <alice@example.com>"
+	// address := "Alice： <alice@example.com>"
+	// address := "Alice : <alice@example.com>"
+	// address := "<Alice><alice@example.com>"
+	// address := "alice@example.com <alice@example.com>"
+	address := "\"Alice : [ ] , @ \" <alice@example.com>"
+	// sendgrid-go
+	sendgridMail, err := sendgrid_mail.ParseEmail(address)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(sendgridMail.Name, sendgridMail.Address)
+
+	// net/mail
+	e, err := mail.ParseAddress(address)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(e.Name, e.Address)
 }
